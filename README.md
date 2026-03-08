@@ -111,3 +111,35 @@ glBindObject(GL_WINDOW_TARGET, 0);
 - compiling now shouldnt give any errors
 
 compile with: `g++ main.cpp src/glad.c -Iinclude -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl`
+
+## Hello window
+
+> glad has to be included before glfw
+
+### glad
+
+in the same way glad has to be included before glfw, glad has to be initialized before opengl, to manage the function pointers
+
+### viewport
+
+we tell opengl the window dimensions so it can properly calculate and use them with respect to the window. to also adjust it when the user resizes it, theres *callback functions*.
+
+```cpp
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+```
+
+to tell GLFW we actually want to call this function each time we resize the window, we say:
+
+```cpp
+glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+```
+
+### render loop
+
+- ```glfwWindowShouldClose``` checks each iteration wether GLFW has been instructed to close
+- ```glfwPollEvents``` checks if events are triggered (keyboard/mouse), updates window state, calls corresponding functions
+- ```glfwSwapBuffers``` swaps color buffer (a large 2D buffer that contains color vlaues for each pixel in GLFWs window) that is used to render to during this render interation and show it as output to the screen
+
+### terminate
+
+as soon as we exit the render loop, clean all GLFW resources we've allocated via ```glfwTerminate```
