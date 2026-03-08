@@ -109,3 +109,5 @@ glBindObject(GL_WINDOW_TARGET, 0);
 ```
 
 - compiling now shouldnt give any errors
+
+compile with: `g++ main.cpp src/glad.c -Iinclude -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl`
