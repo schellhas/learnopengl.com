@@ -44,4 +44,8 @@
 		glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_HEIGHT, 600);
 		// set context target back to default
 		glBindObject(GL_WINDOW_TARGET, 0);
-		
+
+	- this is a typical opengl workflow
+	- first create an object and store a reference to it as an id
+	- then bind the object, using the id, to the target location of the context
+	- 
