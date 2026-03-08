@@ -76,3 +76,18 @@ glBindObject(GL_WINDOW_TARGET, 0);
 
 ## Creating a window
 
+- creating a window is specific to the OS so opengl doesnt do it. creating window, define a context (?) and user input is done by us not opengl
+- most libraries that do that are OS independent, some are GLUT, SDL, SFML and GLFW. learnopengl.com uses GLFW
+
+### glfw
+
+- glfw is very bare. creates an opengl context, defines window parameters, handles user input
+- use on debian:
+
+```cpp
+#include <GLFW/glfw3.h>
+```
+
+> some helpful compiler flags: `-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+
+### glad
