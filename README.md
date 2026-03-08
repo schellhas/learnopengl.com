@@ -88,6 +88,6 @@ glBindObject(GL_WINDOW_TARGET, 0);
 #include <GLFW/glfw3.h>
 ```
 
-> some helpful compiler flags: `-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+> some helpful compiler flags: `-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl`
 
 ### glad
