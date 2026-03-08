@@ -75,3 +75,4 @@ glBindObject(GL_WINDOW_TARGET, 0);
 - then bind the object, using the id, to the target location of the context
 
 ## Creating a window
+
