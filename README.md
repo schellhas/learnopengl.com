@@ -1,4 +1,4 @@
-# notes
+# Part 1 - Getting started
 
 ## OpenGL
 
