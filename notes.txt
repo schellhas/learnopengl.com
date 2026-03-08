@@ -1,0 +1,47 @@
+- opengl is a specification of an API maintained by khronos, the implementation is usually done by graphics card manufacturers
+. immediate mode and core-profile
+	- immediate mode was historically used more, easier to use, less power/flexibility, abstracts a lot
+	- nowadays we basically only use core-profile, more powerful, flexible, efficient, more tedious to implement
+- extensions are a way to use new and modern ways graphics card manufacturers found to do a thing, while still providing an old way of doing it for all the cards that dont support it yet
+	if(GL_ARB_extension_name) {
+		do_it_cool();
+	} else {
+		do_it_old();
+	}
+- state machine
+	- opengl is a state machine
+	- collection of variables decide how opengl should currently operate
+	- this state is usually referred to as opengl context
+	- we often change the opengl context by setting some options, manipulation some buffers and then render using the current context
+	- e.g. we change some context variable that decides wether we draw lines or triangles. after we changed it, it will now draw lines instead of triangles
+	- there are "state-changing" functions, they change the context
+	- and there are "state-using" functions, they perform operations based on the current state of opengl
+	- keep in mind, opengl is a large state machine, this way most functionality will make sense
+- objects
+	- opengl libraries are written in C. one of the most important asbtractions from the libraries are "objects".
+	- an "object" in opengl is a collection of options that represent a subset of opengls state.
+	- example: an object represents the setting of drawing a window. we can set the windows size, how many colors it supports, etc.
+		struct object_name {
+			float	option1;
+			int	option2;
+			char[]	name;
+		};
+	- Whenever we want to use objects it generally looks something like this (with OpenGL’s context visualized as a large struct):
+		// The state of OpenGL
+		struct OpenGL_Context {
+			...
+			object_name* object_Window_Target;
+			...
+		};
+
+		// create object
+		unsigned int objectId = 0;
+		glGenObject(1, &objectId);
+		// bind/assign object to context
+		glBindObject(GL_WINDOW_TARGET, objectId);
+		// set options of object currently bound to GL_WINDOW_TARGET
+		glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_WIDTH, 800);
+		glSetObjectOption(GL_WINDOW_TARGET, GL_OPTION_WINDOW_HEIGHT, 600);
+		// set context target back to default
+		glBindObject(GL_WINDOW_TARGET, 0);
+		
