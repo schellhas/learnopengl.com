@@ -91,3 +91,21 @@ glBindObject(GL_WINDOW_TARGET, 0);
 > some helpful compiler flags: `-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl`
 
 ### glad
+
+- since opengl is just a standard/specification, the driver manufacturer has to implement the specification that the specific graphics card supports
+- the location of most of this drivers function is not known at compile time and needs to be queried at run time
+- you would need to do this for each function manually
+- glad does that
+- on glad.dav1d.de
+- Profile: Core
+- API gl: Version above 3.3
+- tick the box "Generate a loader"
+- click generate
+- copy include directory to your project
+- copy glad.c into your project
+
+```cpp
+#include <glad/glad.h>
+```
+
+- compiling now shouldnt give any errors
