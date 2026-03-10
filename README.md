@@ -150,3 +150,63 @@ theres several GLFW functions for input. we'll use ```glfwGetKey``` that takes t
 
 ## Hello Triangle
 
+to transform 3d coordinates to 2d pixels (screen/window is one large array of pixels), we use the "graphics pipeline". the graphics pipeline can be divided into two large parts: transforming 3d coordinates to 2d coordinates and transforming 2d coordinates to actual colored pixels.
+
+the graphics pipeline is divided into several small steps where each takes the output of the previous one as input. they can be processed in parallel nicely. Because of their parallel nature, graphics cards of today have thousands of small processing cores to quickly process your data within the graphics pipeline. The processing cores run small programs on the GPU for each step of the pipeline. These small programs are called "shaders".
+
+we can configure some of these shaders to replace the default shaders. this way we get more fine-grained control with the usual pros and cons. shaders are written in the OpenGL Shading Language (GLSL).
+
+`vertex_data[]` -> Vertex Shader (configurable) -> Geometry Shader (configurable) -> Shape Assembly (not configurable) -> Rasterization (not configurable) -> Fragment Shader (configurable) -> Tests and Blending (not configurable)
+
+### input
+
+as input to the graphics pipeline we pass a list of three 3d coordinates that should form a triangle in an array here called `vertex_data`, this vertex data is a collection of vertices. A "vertex" is a collection of data per 3d coordinate. this vertex's data is represented using "vertex attributes" that can contain any data we'd like, but for simpllicity's sake we assume that each vertex consists of just a 3d position and some color value.
+
+> We tell OpenGL with "primitives" how to use our vertex data. We can also call them "hints" and some of them are: `GL_POINTS`, `GL_TRIANGLES`, `GL_LINE_STRIP`.
+
+### vertex shader (1st part of graphcis pipeline)
+
+takes as input a single vertex. it transforms 3d coordinates into different 3d coordinates (lol, more later), and the vertex shader allows us to do some basic processing on the vertex attributes (what type of processing?).
+
+### geometry shader (optional)
+
+takes as input a collection of vertices that form a primitive and has the ability to generate other shapes by emitting new vertices to form new (or other) primitives. in this example case, it generates a second triangle out of the given shape.
+
+### primitive assembly
+
+takes as input all the vertices (or vertex of `GL_POINTS` is chosen) from the vertex or geometry shader that form one or more primitives and assembles all the points in the primitive shape given. in this case two triangles.
+
+### rasterization stage
+
+output of primitive assembly stage is passed to rasterization stage. it maps the resulting primitives to the corresponding pixels on the final screen, resulting in fragments for the fragment shader to use. before the fragemnt shaders run, "clipping" is performed. clipping discards all fragemtns that are outside your view, increasing performance.
+
+> A fragment in OpenGL is all the data required for OpenGL to render a single pixel.
+
+### fragment shader
+
+calculates the final color of a pixel and this is usually the stage where all the advanced OpenGL effects occur. usually the fragemnt shader contains data about the §d scene that it can use to calculate the final pixel color (like lights, shadows, color of the light and so on).
+
+### alpha testing and blending
+
+checks the corresponding depth of the fragemtn and uses those to check if th eresulting fragment is in front or behind other objects and should be discarded accordingly. the stage also checks for "alpha" values (alpha values define the opacity of an objects) and "blends" the objects accordingly. so even if a pixel output color is calculated in the fragemnt shader, the final pixel color could bstill be something entierly different when rendering multiple triangles.
+
+### vertex and fragment shader
+
+in modern opengl we have to define at least a vertex and fragment shader of our own.
+
+### vertex input
+
+to draw something we have to give OpenGL some input vertex data. all coordinates that we specify are 3D (x,y,z). opengl only processes coordinates between -1.0 and 1.0. all coordinates in this "normalized device coordinates" range will end up visible on the screen. (all outside it wont)
+
+we want to render a triangle, so we need three vertices. each vertex has a 3d position. we define them in normalized coordinates in a `float` array:
+
+```cpp
+float vertices[] = {
+	-0.5f, -0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	0.0f, 0.5f, 0.0f
+};
+```
+
+we keep the z coordinates at 0.0, so it looks 2d, (one plane stays the same).
+
