@@ -35,6 +35,8 @@ int main() {
 		processInput(window);
 		
 		// render
+		glClearColor(0.15f, 0.0f, 0.15f, 1.0f);	// state-setting function
+		glClear(GL_COLOR_BUFFER_BIT);		// state-using function
 		
 		// check and call events and swap the buffers
 		glfwSwapBuffers(window);
