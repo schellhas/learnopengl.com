@@ -143,3 +143,7 @@ glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 ### terminate
 
 as soon as we exit the render loop, clean all GLFW resources we've allocated via ```glfwTerminate```
+
+### input
+
+theres several GLFW functions for input. we'll use ```glfwGetKey``` that takes the window as an input together with a key.the function returns wether this key is currently being pressed.

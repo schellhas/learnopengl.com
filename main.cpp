@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+void processInput(GLFWwindow*);
+
 int main() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -28,6 +30,13 @@ int main() {
 
 	// render loop
 	while(!glfwWindowShouldClose(window)) {
+		
+		// input
+		processInput(window);
+		
+		// render
+		
+		// check and call events and swap the buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -35,4 +44,10 @@ int main() {
 	glfwTerminate();
 
 	return 0;
+}
+
+void processInput(GLFWwindow* window) {
+	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, true);
+	}
 }
